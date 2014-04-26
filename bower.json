@@ -1,0 +1,17 @@
+{
+  "name": "JSProjectTemplate",
+  "version": "0.0.0",
+  "authors": [
+    "curran <curran.kelleher@gmail.com>"
+  ],
+  "description": "Boilerplate structure for starting a JavaScript project.",
+  "license": "MIT",
+  "homepage": "https://github.com/curran/JSProjectTemplate",
+  "ignore": [
+  ],
+  "dependencies": {
+    "lodash": "~2.4.1",
+    "requirejs": "~2.1.11",
+    "jasmine": "~2.0.0"
+  }
+}
