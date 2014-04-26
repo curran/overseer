@@ -27,23 +27,51 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>Unit tests / user guide for overseer.js.</p>
-
+              
             </div>
             
             <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> requirejs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'requirejs'</span>),
     expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chai'</span>).expect;
 
-requirejs.config({
-  baseUrl: <span class="hljs-string">"."</span>,
-  paths: {
-    model: <span class="hljs-string">'lib/model/dist/model.min'</span>,
-    overseer: <span class="hljs-string">'dist/overseer'</span>
-  }
-});
+requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">'./requireConfig.js'</span>));
 
-describe(<span class="hljs-string">'A suite'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-  <span class="hljs-keyword">var</span> Overseer;</pre></div></div>
+describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+  <span class="hljs-keyword">var</span> Overseer, Model;
+
+  it(<span class="hljs-string">'should load required AMD modules'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
+    requirejs([<span class="hljs-string">'overseer'</span>, <span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_Overseer, _Model)</span> {</span>
+      Overseer = _Overseer;
+      Model = _Model;
+      done();
+    });
+  });
+
+  it(<span class="hljs-string">'should set a simple config'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> {</span>
+    <span class="hljs-keyword">var</span> xValue,
+        loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+          <span class="hljs-keyword">var</span> modules = {
+            foo: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+              <span class="hljs-keyword">var</span> model = <span class="hljs-keyword">new</span> Model();
+              model.set(<span class="hljs-string">'x'</span>, <span class="hljs-number">0</span>);
+              model.publicProperties = [<span class="hljs-string">'x'</span>];
+              model.when(<span class="hljs-string">'x'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> {</span>
+                xValue = x;
+              });
+              <span class="hljs-keyword">return</span> model;
+            }
+          };
+          <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName)</span>{</span>
+            <span class="hljs-keyword">return</span> modules[moduleName];
+          };
+        }()),
+        overseer = Overseer(loadModule);
+    overseer.setConfig({
+      myFoo: {
+        module: <span class="hljs-string">'foo'</span>,
+        x: <span class="hljs-number">5</span>
+      }
+    });
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span></pre></div></div>
             
         </li>
         
@@ -54,23 +82,13 @@ describe(<span class="hljs-string">'A suite'</span>, <span class="hljs-function"
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>Use require.js to fetch the module.</p>
+              <p>TODO get this working
+expect(xValue).to.equal(5);</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  it(<span class="hljs-string">'should load the AMD module'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
-    requirejs([<span class="hljs-string">'overseer'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(OverseerModule)</span> {</span>
-      console.log(<span class="hljs-string">'module:'</span>);
-      console.log(OverseerModule);
-
-      Overseer = OverseerModule;
-      done();
-    });
-  });
-
-  it(<span class="hljs-string">'can access the AMD module'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-    <span class="hljs-keyword">var</span> overseer = Overseer();
-    expect(overseer.config()).to.equal(<span class="hljs-string">'test'</span>);
+            <div class="content"><div class='highlight'><pre>      done();
+    }, <span class="hljs-number">0</span>);
   });
 });</pre></div></div>
             

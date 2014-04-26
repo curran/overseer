@@ -1,16 +1,13 @@
-// Unit tests / user guide for overseer.js.
 var requirejs = require('requirejs'),
     expect = require('chai').expect;
 
 requirejs.config(require('./requireConfig.js'));
 
 describe('Overseer', function() {
-  var configDiff, Overseer, Model;
+  var Overseer, Model;
 
   it('should load required AMD modules', function(done) {
-    requirejs(['configDiff', 'overseer', 'model'],
-        function (_configDiff, _Overseer, _Model) {
-      configDiff = _configDiff,
+    requirejs(['overseer', 'model'], function (_Overseer, _Model) {
       Overseer = _Overseer;
       Model = _Model;
       done();
@@ -43,6 +40,7 @@ describe('Overseer', function() {
       }
     });
     setTimeout(function () {
+      // TODO get this working
       //expect(xValue).to.equal(5);
       done();
     }, 0);

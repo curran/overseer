@@ -30,12 +30,17 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Model)</span>{</span>
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Overseer</span> <span class="hljs-params">()</span> {</span>
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'_'</span>, <span class="hljs-string">'model'</span>, <span class="hljs-string">'configDiff'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(_, Model, configDiff)</span>{</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Overseer</span> <span class="hljs-params">(loadModule)</span> {</span>
+    <span class="hljs-keyword">var</span> models = {};
     <span class="hljs-keyword">return</span> {
-      config: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
-        <span class="hljs-keyword">return</span> <span class="hljs-string">'test'</span>;
-      }
+      setConfig: (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">var</span> oldConfig = {};
+        <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(newConfig)</span> {</span>
+          <span class="hljs-keyword">var</span> diff = configDiff(oldConfig, newConfig);
+          console.log(diff);
+        };
+      }())
     };
   };
 });</pre></div></div>

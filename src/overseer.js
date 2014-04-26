@@ -7,7 +7,7 @@ define(['_', 'model', 'configDiff'], function(_, Model, configDiff){
         return function (newConfig) {
           var diff = configDiff(oldConfig, newConfig);
           console.log(diff);
-        }
+        };
       }())
     };
   };
