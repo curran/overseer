@@ -2,15 +2,7 @@
 var requirejs = require('requirejs'),
     expect = require('chai').expect;
 
-requirejs.config({
-  baseUrl: ".",
-  paths: {
-    overseer: 'dist/overseer',
-    configDiff: 'dist/overseer',
-    _: 'lib/lodash/dist/lodash.min',
-    model: 'lib/model/dist/model.min'
-  }
-});
+requirejs.config(require('./requireConfig.js'));
 
 describe('Overseer', function() {
   var configDiff, Overseer, Model;
