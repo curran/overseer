@@ -9,14 +9,21 @@ var gulp = require('gulp'),
     moduleName = 'overseer';
 
 gulp.task('default', ['lint', 'build', 'test', 'docs']);
+gulp.task('test', ['build']);
 
 gulp.task('lint', function() {
   gulp.src(theCode).pipe(jshint()).pipe(jshint.reporter(stylish));
 });
 
 gulp.task('build', function() {
-  rjs({ baseUrl: 'src', name: moduleName, out: moduleName + '.js', })
-    .pipe(uglify())
+  rjs({
+    baseUrl: 'src',
+    name: moduleName,
+    out: moduleName + '.js',
+    paths: {
+      model: '../lib/model/dist/model.min'
+    }
+  }).pipe(uglify())
     .pipe(gulp.dest('dist'));
 });
 

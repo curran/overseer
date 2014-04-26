@@ -30,8 +30,13 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>define([], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span>{</span>
-  <span class="hljs-keyword">return</span> {
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Model)</span>{</span>
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Overseer</span> <span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">return</span> {
+      config: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-string">'test'</span>;
+      }
+    };
   };
 });</pre></div></div>
             
