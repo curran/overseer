@@ -1,1 +1,94 @@
-!function(n,t){"object"==typeof exports?module.exports=t():"function"==typeof define&&define.amd?define("model",[],t):n.Model=t()}(this,function(){function n(){function n(n,t){"string"==typeof n?r(n,t):o(n)}function o(n){Object.keys(n).forEach(function(t){r(t,n[t])})}function r(n,t){l[n]=t,s[n]&&s[n].forEach(function(n){n()})}function u(n){return l[n]}function f(){var n=[];return function o(r,f,c){r instanceof Array||(r=[r]);var a=t(function(){var n=r.map(u);e(n)&&f.apply(c,n)});return a(),r.forEach(function(t){i(t,a),n.push({property:t,fn:a})}),{when:o,callbacks:n}}}function c(n){n.callbacks.forEach(function(n){a(n.property,n.fn)})}function i(n,t){s[n]||(s[n]=[]),s[n].push(t)}function a(n,t){s[n]=s[n].filter(function(n){return n!==t})}var p={set:n,get:u,when:function(n,t,e){return f()(n,t,e)},cancel:c},s={},l={};return p}function t(n){var t=!1;return function(){t||(t=!0,setTimeout(function(){t=!1,n()},0))}}function e(n){return!n.some(function(n){return"undefined"==typeof n||null===n})}return n}),define("overseer",["model"],function(){return function(){return{config:function(){return"test"}}}});
+
+define('overseer',['_', 'model'], function(_, Model){
+  return function Overseer (loadModule) {
+    var models = {};
+    return {
+      setConfig: (function () {
+        var oldConfig = {};
+        return function (newConfig) {
+          console.log(newConfig);
+          var diff = configDiff(oldConfig, newConfig);
+        }
+      }())
+    };
+  };
+
+  // Computes the difference between two configuration objects,
+  // returns the difference as a sequence of actions to be executed.
+  function configDiff(oldConfig, newConfig){
+    var actions = [],
+        newAliases = _.keys(newConfig),
+        oldAliases = _.keys(oldConfig);
+
+    // Handle removed aliases.
+    // TODO test this
+    _.difference(oldAliases, newAliases).forEach(destroy);
+
+    newAliases.forEach(function (alias) {
+      var oldOptions = oldConfig[alias],
+          newOptions = newConfig[alias],
+          oldKeys = _.keys(oldOptions),
+          newKeys = _.keys(newOptions);
+
+      // Handle added aliases.
+      // TODO test this
+      if(!oldOptions){
+        create(alias);
+        newKeys.forEach(function (property) {
+          set(alias, property, newOptions[property]);
+        });
+      } else {
+
+        // Handle added properties.
+        // TODO test this
+        _.difference(newKeys, oldKeys).forEach(function (property) {
+          set(alias, property, newOptions[property]);
+        });
+
+        // Handle removed properties.
+        // TODO test this
+        _.difference(oldKeys, newKeys).forEach(function (property) {
+          // TODO use only set, track defaults using model.publicProperties
+          unset(alias, property);
+        });
+
+        // Handle updated properties.
+        // TODO test this
+        _.intersection(newKeys, oldKeys).forEach(function (property) {
+          if(!_.isEqual(oldOptions[property], newOptions[property])){
+            set(alias, property, newOptions[property]);
+          }
+        });
+      }
+    });
+    // TODO clean up this code
+    function create(alias) {
+      actions.push({
+        method: 'create',
+        alias: alias
+      });
+    }
+    function destroy(alias) {
+      actions.push({
+        method: 'destroy',
+        alias: alias
+      });
+    }
+    function set(alias, property, value) {
+      actions.push({
+        method: 'set',
+        alias: alias,
+        property: property,
+        value: value
+      });
+    }
+    function unset(alias, property, value) {
+      actions.push({
+        method: 'unset',
+        alias: alias,
+        property: property
+      });
+    }
+    return actions;
+  }
+});

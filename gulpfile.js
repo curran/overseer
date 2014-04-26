@@ -9,7 +9,6 @@ var gulp = require('gulp'),
     moduleName = 'overseer';
 
 gulp.task('default', ['lint', 'build', 'test', 'docs']);
-gulp.task('test', ['build']);
 
 gulp.task('lint', function() {
   gulp.src(theCode).pipe(jshint()).pipe(jshint.reporter(stylish));
@@ -21,13 +20,18 @@ gulp.task('build', function() {
     name: moduleName,
     out: moduleName + '.js',
     paths: {
-      model: '../lib/model/dist/model.min'
+      // Exclude these modules from the build,
+      // they will be handled in the consuming code.
+      // See http://requirejs.org/docs/optimization.html#empty
+      model: 'empty:',
+      _: 'empty:'
     }
-  }).pipe(uglify())
-    .pipe(gulp.dest('dist'));
+  })
+  //.pipe(uglify())
+  .pipe(gulp.dest('dist'));
 });
 
-gulp.task('test', function () {
+gulp.task('test', ['build'], function () {
   gulp.src(['tests/**/*.js']).pipe(mocha({ reporter: 'spec' }));
 });
 
