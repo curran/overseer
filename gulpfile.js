@@ -5,7 +5,8 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'),
     stylish = require('jshint-stylish'),
     docco = require('gulp-docco'),
-    theCode = ['src/**/*.js','tests/**/*.js'];
+    theCode = ['src/**/*.js','tests/**/*.js'],
+    moduleName = 'overseer';
 
 gulp.task('default', ['lint', 'build', 'test', 'docs']);
 
@@ -14,7 +15,7 @@ gulp.task('lint', function() {
 });
 
 gulp.task('build', function() {
-  rjs({ baseUrl: 'src', name: 'myModule', out: 'myModule.js', })
+  rjs({ baseUrl: 'src', name: moduleName, out: moduleName + '.js', })
     .pipe(uglify())
     .pipe(gulp.dest('dist'));
 });
