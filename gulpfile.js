@@ -20,8 +20,7 @@ gulp.task('build', function() {
 });
 
 gulp.task('test', function () {
-  gulp.src(['tests/**/*.js'])
-    .pipe(mocha({ reporter: 'spec' }));
+  gulp.src(['tests/**/*.js']).pipe(mocha({ reporter: 'spec' }));
 });
 
 gulp.task('docs', function () {
