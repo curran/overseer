@@ -1,5 +1,4 @@
-
-define('configDiff',['_'], function (_) {
+define(['_'], function (_) {
   // Computes the difference between two configuration objects,
   // returns the difference as a sequence of actions to be executed.
   return function configDiff(oldConfig, newConfig){
@@ -77,20 +76,5 @@ define('configDiff',['_'], function (_) {
       });
     }
     return actions;
-  };
-});
-
-define('overseer',['_', 'model', 'configDiff'], function(_, Model, configDiff){
-  return function Overseer (loadModule) {
-    var models = {};
-    return {
-      setConfig: (function () {
-        var oldConfig = {};
-        return function (newConfig) {
-          var diff = configDiff(oldConfig, newConfig);
-          console.log(diff);
-        }
-      }())
-    };
   };
 });

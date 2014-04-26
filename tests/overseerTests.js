@@ -6,20 +6,21 @@ requirejs.config({
   baseUrl: ".",
   paths: {
     overseer: 'dist/overseer',
+    configDiff: 'dist/overseer',
     _: 'lib/lodash/dist/lodash.min',
     model: 'lib/model/dist/model.min'
   }
 });
 
 describe('Overseer', function() {
-  var Overseer,
-      Model;
+  var configDiff, Overseer, Model;
 
-  // Use require.js to fetch the module.
-  it('should load the AMD module', function(done) {
-    requirejs(['overseer', 'model'], function (OverseerModule, ModelModule) {
-      Overseer = OverseerModule;
-      Model = ModelModule;
+  it('should load required AMD modules', function(done) {
+    requirejs(['configDiff', 'overseer', 'model'],
+        function (_configDiff, _Overseer, _Model) {
+      configDiff = _configDiff,
+      Overseer = _Overseer;
+      Model = _Model;
       done();
     });
   });
