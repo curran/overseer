@@ -35,14 +35,83 @@
 
 requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">'./requireConfig.js'</span>));
 
+
 describe(<span class="hljs-string">'configDiff'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
-  <span class="hljs-keyword">var</span> configDiff;
+  <span class="hljs-keyword">var</span> configDiff;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Converts an action into a string
+for convenient testing.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">str</span><span class="hljs-params">(action)</span> {</span>
+    <span class="hljs-keyword">return</span> action.method + <span class="hljs-string">'('</span> + [
+      action.alias,
+      action.property ? <span class="hljs-string">', '</span> + action.property : <span class="hljs-string">''</span>,
+      action.value ? <span class="hljs-string">', '</span> + action.value : <span class="hljs-string">''</span>,
+    ].join(<span class="hljs-string">''</span>) + <span class="hljs-string">')'</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>A function that calls configDiff
+and maps the returned actions to strings.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">diff</span><span class="hljs-params">(oldConfig, newConfig)</span>{</span>
+    <span class="hljs-keyword">return</span> configDiff(oldConfig, newConfig).map(str);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>A convenience function that writes part of the unit test,
+for use only while developing tests.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeTest</span><span class="hljs-params">(actions)</span>{</span>
+    actions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(action)</span> {</span>
+      console.log(<span class="hljs-string">"expect(actions).to.contain('"</span> + action + <span class="hljs-string">"');"</span>);
+    });
+  }
 
   it(<span class="hljs-string">'should load AMD module'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
     requirejs([<span class="hljs-string">'configDiff'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_configDiff)</span> {</span>
       configDiff = _configDiff;
       done();
     });
+  });
+
+  it(<span class="hljs-string">'should handle one added alias'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+    <span class="hljs-keyword">var</span> actions = diff({}, { foo: { x: <span class="hljs-number">50</span>, y: <span class="hljs-number">40</span> } });
+    expect(actions[<span class="hljs-number">0</span>]).to.equal(<span class="hljs-string">'create(foo)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">'set(foo, x, 50)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">'set(foo, y, 40)'</span>);
+    expect(actions.length).to.equal(<span class="hljs-number">3</span>);
   });
 });</pre></div></div>
             
