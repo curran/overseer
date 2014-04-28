@@ -5,7 +5,15 @@ define('configDiff',['_'], function (_) {
   return function configDiff(oldConfig, newConfig){
     var actions = [],
         newAliases = _.keys(newConfig),
-        oldAliases = _.keys(oldConfig);
+        oldAliases = _.keys(oldConfig),
+        create = _.partial(addAction, 'create');
+
+    function addAction(method, alias){
+      actions.push({
+        method: method,
+        alias: alias
+      });
+    }
 
     // Handle removed aliases.
     // TODO test this
@@ -49,12 +57,6 @@ define('configDiff',['_'], function (_) {
       }
     });
     // TODO clean up this code
-    function create(alias) {
-      actions.push({
-        method: 'create',
-        alias: alias
-      });
-    }
     function destroy(alias) {
       actions.push({
         method: 'destroy',
