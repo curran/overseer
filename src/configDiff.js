@@ -5,13 +5,16 @@ define(['_'], function (_) {
     var actions = [],
         newAliases = _.keys(newConfig),
         oldAliases = _.keys(oldConfig),
-        create = _.partial(addAction, 'create');
-
-    function addAction(method, alias){
-      actions.push({
-        method: method,
-        alias: alias
-      });
+        create = _.partial(addAction, 'create'),
+        destroy = _.partial(addAction, 'destroy'),
+        set = _.partial(addAction, 'set'),
+        unset = _.partial(addAction, 'unset');
+    
+    function addAction(method, alias, property, value){
+      var action = { method: method, alias: alias };
+      if(property){ action.property = property; }
+      if(value){ action.value = value; }
+      actions.push(action);
     }
 
     // Handle removed aliases.
@@ -55,28 +58,6 @@ define(['_'], function (_) {
         });
       }
     });
-    // TODO clean up this code
-    function destroy(alias) {
-      actions.push({
-        method: 'destroy',
-        alias: alias
-      });
-    }
-    function set(alias, property, value) {
-      actions.push({
-        method: 'set',
-        alias: alias,
-        property: property,
-        value: value
-      });
-    }
-    function unset(alias, property, value) {
-      actions.push({
-        method: 'unset',
-        alias: alias,
-        property: property
-      });
-    }
     return actions;
   };
 });
