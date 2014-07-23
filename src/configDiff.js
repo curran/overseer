@@ -28,36 +28,33 @@ define(['_'], function (_) {
 
     // Handle updated aliases.
     newAliases.forEach(function (alias) {
-      // TODO use consistent naming:
-      //  - choose between "model" and "options"
-      //  - choose between "key" and "peoperty"
-      var oldOptions = oldConfig[alias] ? oldConfig[alias].model : null,
-          newOptions = newConfig[alias].model,
-          oldKeys = _.keys(oldOptions),
-          newKeys = _.keys(newOptions);
+      var oldModel = oldConfig[alias] ? oldConfig[alias].model : null,
+          newModel = newConfig[alias].model,
+          oldPropertys = _.keys(oldModel),
+          newPropertys = _.keys(newModel);
 
       // Handle added aliases.
-      if(!oldOptions){
+      if(!oldModel){
         create(alias, newConfig[alias].module);
-        newKeys.forEach(function (property) {
-          set(alias, property, newOptions[property]);
+        newPropertys.forEach(function (property) {
+          set(alias, property, newModel[property]);
         });
       } else {
 
         // Handle added properties.
-        _.difference(newKeys, oldKeys).forEach(function (property) {
-          set(alias, property, newOptions[property]);
+        _.difference(newPropertys, oldPropertys).forEach(function (property) {
+          set(alias, property, newModel[property]);
         });
 
         // Handle removed properties.
-        _.difference(oldKeys, newKeys).forEach(function (property) {
+        _.difference(oldPropertys, newPropertys).forEach(function (property) {
           unset(alias, property);
         });
 
         // Handle updated properties.
-        _.intersection(newKeys, oldKeys).forEach(function (property) {
-          if(!_.isEqual(oldOptions[property], newOptions[property])){
-            set(alias, property, newOptions[property]);
+        _.intersection(newPropertys, oldPropertys).forEach(function (property) {
+          if(!_.isEqual(oldModel[property], newModel[property])){
+            set(alias, property, newModel[property]);
           }
         });
       }
