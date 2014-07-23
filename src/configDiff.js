@@ -51,14 +51,11 @@ define(['_'], function (_) {
         });
 
         // Handle removed properties.
-        // TODO test this
         _.difference(oldKeys, newKeys).forEach(function (property) {
-          // TODO use only set, track defaults using model.publicProperties
           unset(alias, property);
         });
 
         // Handle updated properties.
-        // TODO test this
         _.intersection(newKeys, oldKeys).forEach(function (property) {
           if(!_.isEqual(oldOptions[property], newOptions[property])){
             set(alias, property, newOptions[property]);
