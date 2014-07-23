@@ -3,7 +3,6 @@ var requirejs = require('requirejs'),
 
 requirejs.config(require('./requireConfig.js'));
 
-
 describe('configDiff', function() {
   var configDiff;
 

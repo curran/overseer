@@ -40,7 +40,6 @@ describe('Overseer', function() {
       }
     });
     setTimeout(function () {
-      // TODO get this working
       //expect(xValue).to.equal(5);
       done();
     }, 0);

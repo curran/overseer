@@ -1,8 +1,8 @@
 {
-  "name": "JSExampleProject",
+  "name": "Overseer",
   "version": "0.0.1",
   "author": "Curran Kelleher <curran.kelleher@gmail.com>",
-  "description": "An example project.",
+  "description": "An application state management framework.",
   "devDependencies": {
     "chai": "^1.9.1",
     "express": "^4.0.0",

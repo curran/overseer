@@ -30,7 +30,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'_'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_)</span> {</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'_'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -46,7 +46,7 @@ returns the difference as a sequence of actions to be executed.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configDiff</span><span class="hljs-params">(oldConfig, newConfig)</span>{</span>
+            <div class="content"><div class='highlight'><pre>  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">configDiff</span><span class="hljs-params">(oldConfig, newConfig)</span></span>{
     <span class="hljs-keyword">var</span> actions = [],
         newAliases = _.keys(newConfig),
         oldAliases = _.keys(oldConfig),
@@ -55,7 +55,7 @@ returns the difference as a sequence of actions to be executed.</p>
         set = _.partial(addAction, <span class="hljs-string">'set'</span>),
         unset = _.partial(addAction, <span class="hljs-string">'unset'</span>);
     
-    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addAction</span><span class="hljs-params">(method, alias, property, value)</span>{</span>
+    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">addAction</span><span class="hljs-params">(method, alias, property, value)</span></span>{
       <span class="hljs-keyword">var</span> action = { method: method, alias: alias };
       <span class="hljs-keyword">if</span>(property){ action.property = property; }
       <span class="hljs-keyword">if</span>(value){ action.value = value; }
@@ -78,7 +78,7 @@ TODO test this</p>
             
             <div class="content"><div class='highlight'><pre>    _.difference(oldAliases, newAliases).forEach(destroy);
 
-    newAliases.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(alias)</span> {</span>
+    newAliases.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(alias)</span> </span>{
       <span class="hljs-keyword">var</span> oldOptions = oldConfig[alias],
           newOptions = newConfig[alias],
           oldKeys = _.keys(oldOptions),
@@ -100,7 +100,7 @@ TODO test this</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span>(!oldOptions){
         create(alias);
-        newKeys.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> {</span>
+        newKeys.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           set(alias, property, newOptions[property]);
         });
       } <span class="hljs-keyword">else</span> {</pre></div></div>
@@ -119,7 +119,7 @@ TODO test this</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        _.difference(newKeys, oldKeys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> {</span>
+            <div class="content"><div class='highlight'><pre>        _.difference(newKeys, oldKeys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           set(alias, property, newOptions[property]);
         });</pre></div></div>
             
@@ -137,7 +137,7 @@ TODO test this</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        _.difference(oldKeys, newKeys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> {</span></pre></div></div>
+            <div class="content"><div class='highlight'><pre>        _.difference(oldKeys, newKeys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -169,7 +169,7 @@ TODO test this</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        _.intersection(newKeys, oldKeys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> {</span>
+            <div class="content"><div class='highlight'><pre>        _.intersection(newKeys, oldKeys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           <span class="hljs-keyword">if</span>(!_.isEqual(oldOptions[property], newOptions[property])){
             set(alias, property, newOptions[property]);
           }

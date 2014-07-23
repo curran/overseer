@@ -2,8 +2,8 @@ module.exports = {
   baseUrl: '.',
   paths: {
     configDiff: 'src/configDiff',
-    overseer: 'dist/overseer',
-    _: 'lib/lodash/dist/lodash.min',
-    model: 'lib/model/dist/model.min'
+    overseer: 'src/overseer',
+    _: 'bower_components/lodash/dist/lodash',
+    model: 'bower_components/model/dist/model'
   }
 };

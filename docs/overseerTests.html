@@ -35,43 +35,43 @@
 
 requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">'./requireConfig.js'</span>));
 
-describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> {</span>
+describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
   <span class="hljs-keyword">var</span> Overseer, Model;
 
-  it(<span class="hljs-string">'should load required AMD modules'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> {</span>
-    requirejs([<span class="hljs-string">'overseer'</span>, <span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_Overseer, _Model)</span> {</span>
+  it(<span class="hljs-string">'should load required AMD modules'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> </span>{
+    requirejs([<span class="hljs-string">'overseer'</span>, <span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_Overseer, _Model)</span> </span>{
       Overseer = _Overseer;
       Model = _Model;
       done();
     });
   });
 
-  it(<span class="hljs-string">'should set a simple config'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> {</span>
+  it(<span class="hljs-string">'should set a simple config'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
     <span class="hljs-keyword">var</span> xValue,
-        loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+        loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
           <span class="hljs-keyword">var</span> modules = {
-            foo: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span>
+            foo: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
               <span class="hljs-keyword">var</span> model = <span class="hljs-keyword">new</span> Model();
               model.set(<span class="hljs-string">'x'</span>, <span class="hljs-number">0</span>);
               model.publicProperties = [<span class="hljs-string">'x'</span>];
-              model.when(<span class="hljs-string">'x'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> {</span>
+              model.when(<span class="hljs-string">'x'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> </span>{
                 xValue = x;
               });
               <span class="hljs-keyword">return</span> model;
             }
           };
-          <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName)</span>{</span>
+          <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName)</span></span>{
             <span class="hljs-keyword">return</span> modules[moduleName];
           };
         }()),
         overseer = Overseer(loadModule);
     overseer.setConfig({
       myFoo: {
-        module: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
         x: <span class="hljs-number">5</span>
       }
     });
-    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> {</span></pre></div></div>
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{</pre></div></div>
             
         </li>
         
@@ -82,8 +82,7 @@ describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-2">&#182;</a>
               </div>
-              <p>TODO get this working
-expect(xValue).to.equal(5);</p>
+              <p>expect(xValue).to.equal(5);</p>
 
             </div>
             
