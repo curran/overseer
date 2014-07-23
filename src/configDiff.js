@@ -24,7 +24,6 @@ define(['_'], function (_) {
     }
 
     // Handle removed aliases.
-    // TODO test this
     _.difference(oldAliases, newAliases).forEach(destroy);
 
     // Handle updated aliases.

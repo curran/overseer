@@ -181,4 +181,17 @@ describe('configDiff', function() {
     expect(actions).to.contain('set(myFoo, y, 50)');
     expect(actions.length).to.equal(2);
   });
+  it('should handle one removed alias', function() {
+    var actions = diff({
+      myFoo: {
+        module: 'foo',
+        model: {
+          x: 50,
+          y: 40
+        }
+      }
+    }, {});
+    expect(actions).to.contain('destroy(myFoo)');
+    expect(actions.length).to.equal(1);
+  });
 });
