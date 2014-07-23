@@ -52,4 +52,48 @@ describe('configDiff', function() {
     expect(actions).to.contain('set(myFoo, y, 40)');
     expect(actions.length).to.equal(3);
   });
+
+  it('should handle one added property', function() {
+    var actions = diff({
+      myFoo: {
+        module: 'foo',
+        model: {
+          y: 40
+        }
+      }
+    }, {
+      myFoo: {
+        module: 'foo',
+        model: {
+          x: 50,
+          y: 40
+        }
+      }
+    });
+    expect(actions).to.contain('set(myFoo, x, 50)');
+    expect(actions.length).to.equal(1);
+  });
+
+  it('should handle two added properties', function() {
+    var actions = diff({
+      myFoo: {
+        module: 'foo',
+        model: {
+          y: 40
+        }
+      }
+    }, {
+      myFoo: {
+        module: 'foo',
+        model: {
+          x: 50,
+          y: 40,
+          z: 70
+        }
+      }
+    });
+    expect(actions).to.contain('set(myFoo, x, 50)');
+    expect(actions).to.contain('set(myFoo, z, 70)');
+    expect(actions.length).to.equal(2);
+  });
 });
