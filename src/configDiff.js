@@ -46,7 +46,6 @@ define(['_'], function (_) {
       } else {
 
         // Handle added properties.
-        // TODO test this
         _.difference(newKeys, oldKeys).forEach(function (property) {
           set(alias, property, newOptions[property]);
         });

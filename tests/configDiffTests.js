@@ -96,4 +96,46 @@ describe('configDiff', function() {
     expect(actions).to.contain('set(myFoo, z, 70)');
     expect(actions.length).to.equal(2);
   });
+
+  it('should handle one removed property', function() {
+    var actions = diff({
+      myFoo: {
+        module: 'foo',
+        model: {
+          x: 50,
+          y: 40
+        }
+      }
+    }, {
+      myFoo: {
+        module: 'foo',
+        model: {
+          y: 40
+        }
+      }
+    });
+    expect(actions).to.contain('unset(myFoo, x)');
+    expect(actions.length).to.equal(1);
+  });
+
+  it('should handle two removed properties', function() {
+    var actions = diff({
+      myFoo: {
+        module: 'foo',
+        model: {
+          x: 50,
+          y: 40
+        }
+      }
+    }, {
+      myFoo: {
+        module: 'foo',
+        model: {
+        }
+      }
+    });
+    expect(actions).to.contain('unset(myFoo, x)');
+    expect(actions).to.contain('unset(myFoo, y)');
+    expect(actions.length).to.equal(2);
+  });
 });
