@@ -13,6 +13,7 @@ describe('configDiff', function() {
       action.alias,
       action.property ? ', ' + action.property : '',
       action.value ? ', ' + action.value : '',
+      action.module ? ', ' + action.module : ''
     ].join('') + ')';
   }
 
@@ -38,10 +39,17 @@ describe('configDiff', function() {
   });
 
   it('should handle one added alias', function() {
-    var actions = diff({}, { foo: { x: 50, y: 40 } });
-    expect(actions[0]).to.equal('create(foo)');
-    expect(actions).to.contain('set(foo, x, 50)');
-    expect(actions).to.contain('set(foo, y, 40)');
+    var actions = diff({}, {
+      myFoo: {
+        module: 'foo',
+        model: {
+          x: 50,
+          y: 40
+        }
+      }
+    });
+    expect(actions).to.contain('set(myFoo, x, 50)');
+    expect(actions).to.contain('set(myFoo, y, 40)');
     expect(actions.length).to.equal(3);
   });
 });

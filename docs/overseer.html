@@ -37,22 +37,9 @@
       setConfig: (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
         <span class="hljs-keyword">var</span> oldConfig = {};
         <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(newConfig)</span> </span>{
-          <span class="hljs-keyword">var</span> diff = configDiff(oldConfig, newConfig);</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-2">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
-              </div>
-              <p>console.log(diff);</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>        };
+          <span class="hljs-keyword">var</span> diff = configDiff(oldConfig, newConfig);
+          <span class="hljs-built_in">console</span>.log(diff);
+        };
       }())
     };
   };

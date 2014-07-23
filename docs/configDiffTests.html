@@ -57,6 +57,7 @@ for convenient testing.</p>
       action.alias,
       action.property ? <span class="hljs-string">', '</span> + action.property : <span class="hljs-string">''</span>,
       action.value ? <span class="hljs-string">', '</span> + action.value : <span class="hljs-string">''</span>,
+      action.module ? <span class="hljs-string">', '</span> + action.module : <span class="hljs-string">''</span>
     ].join(<span class="hljs-string">''</span>) + <span class="hljs-string">')'</span>;
   }</pre></div></div>
             
@@ -106,10 +107,17 @@ for use only while developing tests.</p>
   });
 
   it(<span class="hljs-string">'should handle one added alias'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
-    <span class="hljs-keyword">var</span> actions = diff({}, { foo: { x: <span class="hljs-number">50</span>, y: <span class="hljs-number">40</span> } });
-    expect(actions[<span class="hljs-number">0</span>]).to.equal(<span class="hljs-string">'create(foo)'</span>);
-    expect(actions).to.contain(<span class="hljs-string">'set(foo, x, 50)'</span>);
-    expect(actions).to.contain(<span class="hljs-string">'set(foo, y, 40)'</span>);
+    <span class="hljs-keyword">var</span> actions = diff({}, {
+      myFoo: {
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        model: {
+          x: <span class="hljs-number">50</span>,
+          y: <span class="hljs-number">40</span>
+        }
+      }
+    });
+    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, x, 50)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, y, 40)'</span>);
     expect(actions.length).to.equal(<span class="hljs-number">3</span>);
   });
 });</pre></div></div>
