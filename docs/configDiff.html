@@ -30,7 +30,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'_'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">"_"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -52,19 +52,19 @@ returns the difference as a sequence of actions to be executed.</p>
         oldAliases = _.keys(oldConfig);
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">create</span><span class="hljs-params">(alias, module)</span></span>{
-      actions.push({ method:<span class="hljs-string">'create'</span>, alias: alias, <span class="hljs-built_in">module</span>: <span class="hljs-built_in">module</span> });
+      actions.push({ method: <span class="hljs-string">"create"</span>, alias: alias, <span class="hljs-built_in">module</span>: <span class="hljs-built_in">module</span> });
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span><span class="hljs-params">(alias)</span></span>{
-      actions.push({ method:<span class="hljs-string">'destroy'</span>, alias: alias });
+      actions.push({ method: <span class="hljs-string">"destroy"</span>, alias: alias });
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">set</span><span class="hljs-params">(alias, property, value)</span></span>{
-      actions.push({ method:<span class="hljs-string">'set'</span>, alias: alias, property: property, value: value });
+      actions.push({ method: <span class="hljs-string">"set"</span>, alias: alias, property: property, value: value });
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">unset</span><span class="hljs-params">(alias, property)</span></span>{
-      actions.push({ method:<span class="hljs-string">'unset'</span>, alias: alias, property: property});
+      actions.push({ method: <span class="hljs-string">"unset"</span>, alias: alias, property: property});
     }</pre></div></div>
             
         </li>
@@ -98,8 +98,8 @@ returns the difference as a sequence of actions to be executed.</p>
             <div class="content"><div class='highlight'><pre>    newAliases.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(alias)</span> </span>{
       <span class="hljs-keyword">var</span> oldModel = oldConfig[alias] ? oldConfig[alias].model : <span class="hljs-literal">null</span>,
           newModel = newConfig[alias].model,
-          oldPropertys = _.keys(oldModel),
-          newPropertys = _.keys(newModel);</pre></div></div>
+          oldProperties = _.keys(oldModel),
+          newProperties = _.keys(newModel);</pre></div></div>
             
         </li>
         
@@ -116,7 +116,7 @@ returns the difference as a sequence of actions to be executed.</p>
             
             <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span>(!oldModel){
         create(alias, newConfig[alias].module);
-        newPropertys.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
+        newProperties.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           set(alias, property, newModel[property]);
         });
       } <span class="hljs-keyword">else</span> {</pre></div></div>
@@ -134,7 +134,7 @@ returns the difference as a sequence of actions to be executed.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        _.difference(newPropertys, oldPropertys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
+            <div class="content"><div class='highlight'><pre>        _.difference(newProperties, oldProperties).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           set(alias, property, newModel[property]);
         });</pre></div></div>
             
@@ -151,7 +151,7 @@ returns the difference as a sequence of actions to be executed.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        _.difference(oldPropertys, newPropertys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
+            <div class="content"><div class='highlight'><pre>        _.difference(oldProperties, newProperties).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           unset(alias, property);
         });</pre></div></div>
             
@@ -168,7 +168,7 @@ returns the difference as a sequence of actions to be executed.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        _.intersection(newPropertys, oldPropertys).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
+            <div class="content"><div class='highlight'><pre>        _.intersection(newProperties, oldProperties).forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
           <span class="hljs-keyword">if</span>(!_.isEqual(oldModel[property], newModel[property])){
             set(alias, property, newModel[property]);
           }

@@ -1,5 +1,5 @@
 
-define('configDiff',['_'], function (_) {
+define('configDiff',["_"], function (_) {
 
   // Computes the difference between two configuration objects,
   // returns the difference as a sequence of actions to be executed.
@@ -9,19 +9,19 @@ define('configDiff',['_'], function (_) {
         oldAliases = _.keys(oldConfig);
 
     function create(alias, module){
-      actions.push({ method:'create', alias: alias, module: module });
+      actions.push({ method: "create", alias: alias, module: module });
     }
 
     function destroy(alias){
-      actions.push({ method:'destroy', alias: alias });
+      actions.push({ method: "destroy", alias: alias });
     }
 
     function set(alias, property, value){
-      actions.push({ method:'set', alias: alias, property: property, value: value });
+      actions.push({ method: "set", alias: alias, property: property, value: value });
     }
 
     function unset(alias, property){
-      actions.push({ method:'unset', alias: alias, property: property});
+      actions.push({ method: "unset", alias: alias, property: property});
     }
 
     // Handle removed aliases.
@@ -31,29 +31,29 @@ define('configDiff',['_'], function (_) {
     newAliases.forEach(function (alias) {
       var oldModel = oldConfig[alias] ? oldConfig[alias].model : null,
           newModel = newConfig[alias].model,
-          oldPropertys = _.keys(oldModel),
-          newPropertys = _.keys(newModel);
+          oldProperties = _.keys(oldModel),
+          newProperties = _.keys(newModel);
 
       // Handle added aliases.
       if(!oldModel){
         create(alias, newConfig[alias].module);
-        newPropertys.forEach(function (property) {
+        newProperties.forEach(function (property) {
           set(alias, property, newModel[property]);
         });
       } else {
 
         // Handle added properties.
-        _.difference(newPropertys, oldPropertys).forEach(function (property) {
+        _.difference(newProperties, oldProperties).forEach(function (property) {
           set(alias, property, newModel[property]);
         });
 
         // Handle removed properties.
-        _.difference(oldPropertys, newPropertys).forEach(function (property) {
+        _.difference(oldProperties, newProperties).forEach(function (property) {
           unset(alias, property);
         });
 
         // Handle updated properties.
-        _.intersection(newPropertys, oldPropertys).forEach(function (property) {
+        _.intersection(newProperties, oldProperties).forEach(function (property) {
           if(!_.isEqual(oldModel[property], newModel[property])){
             set(alias, property, newModel[property]);
           }

@@ -30,12 +30,12 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> requirejs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'requirejs'</span>),
-    expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chai'</span>).expect;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> requirejs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"requirejs"</span>),
+    expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">"chai"</span>).expect;
 
-requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">'./requireConfig.js'</span>));
+requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">"./requireConfig.js"</span>));
 
-describe(<span class="hljs-string">'configDiff'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+describe(<span class="hljs-string">"configDiff"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
   <span class="hljs-keyword">var</span> configDiff;</pre></div></div>
             
         </li>
@@ -53,12 +53,12 @@ for convenient testing.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">str</span><span class="hljs-params">(action)</span> </span>{
-    <span class="hljs-keyword">return</span> action.method + <span class="hljs-string">'('</span> + [
+    <span class="hljs-keyword">return</span> action.method + <span class="hljs-string">"("</span> + [
       action.alias,
-      action.property ? <span class="hljs-string">', '</span> + action.property : <span class="hljs-string">''</span>,
-      action.value ? <span class="hljs-string">', '</span> + action.value : <span class="hljs-string">''</span>,
-      action.module ? <span class="hljs-string">', '</span> + action.module : <span class="hljs-string">''</span>
-    ].join(<span class="hljs-string">''</span>) + <span class="hljs-string">')'</span>;
+      action.property ? <span class="hljs-string">", "</span> + action.property : <span class="hljs-string">""</span>,
+      action.value ? <span class="hljs-string">", "</span> + action.value : <span class="hljs-string">""</span>,
+      action.module ? <span class="hljs-string">", "</span> + action.module : <span class="hljs-string">""</span>
+    ].join(<span class="hljs-string">""</span>) + <span class="hljs-string">")"</span>;
   }</pre></div></div>
             
         </li>
@@ -95,64 +95,64 @@ for use only while developing tests.</p>
             
             <div class="content"><div class='highlight'><pre>  <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">writeTest</span><span class="hljs-params">(actions)</span></span>{
     actions.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(action)</span> </span>{
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">"expect(actions).to.contain('"</span> + action + <span class="hljs-string">"');"</span>);
+      <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'expect(actions).to.contain("'</span> + action + <span class="hljs-string">'");'</span>);
     });
   }
 
-  it(<span class="hljs-string">'should load AMD module'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> </span>{
-    requirejs([<span class="hljs-string">'configDiff'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_configDiff)</span> </span>{
+  it(<span class="hljs-string">"should load AMD module"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> </span>{
+    requirejs([<span class="hljs-string">"configDiff"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_configDiff)</span> </span>{
       configDiff = _configDiff;
       done();
     });
   });
 
-  it(<span class="hljs-string">'should handle one added alias'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle one added alias"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({}, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, x, 50)'</span>);
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, y, 40)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, x, 50)"</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, y, 40)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">3</span>);
   });
 
-  it(<span class="hljs-string">'should handle one added property'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle one added property"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           y: <span class="hljs-number">40</span>
         }
       }
     }, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, x, 50)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, x, 50)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">1</span>);
   });
 
-  it(<span class="hljs-string">'should handle two added properties'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle two added properties"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           y: <span class="hljs-number">40</span>
         }
       }
     }, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>,
@@ -160,15 +160,15 @@ for use only while developing tests.</p>
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, x, 50)'</span>);
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, z, 70)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, x, 50)"</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, z, 70)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">2</span>);
   });
 
-  it(<span class="hljs-string">'should handle one removed property'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle one removed property"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
@@ -176,20 +176,20 @@ for use only while developing tests.</p>
       }
     }, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           y: <span class="hljs-number">40</span>
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'unset(myFoo, x)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"unset(myFoo, x)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">1</span>);
   });
 
-  it(<span class="hljs-string">'should handle two removed properties'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle two removed properties"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
@@ -197,19 +197,19 @@ for use only while developing tests.</p>
       }
     }, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'unset(myFoo, x)'</span>);
-    expect(actions).to.contain(<span class="hljs-string">'unset(myFoo, y)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"unset(myFoo, x)"</span>);
+    expect(actions).to.contain(<span class="hljs-string">"unset(myFoo, y)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">2</span>);
   });
-  it(<span class="hljs-string">'should handle one updated property'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle one updated property"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
@@ -217,20 +217,20 @@ for use only while developing tests.</p>
       }
     }, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">60</span>,
           y: <span class="hljs-number">40</span>
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, x, 60)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, x, 60)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">1</span>);
   });
-  it(<span class="hljs-string">'should handle two updated properties'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle two updated properties"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
@@ -238,28 +238,28 @@ for use only while developing tests.</p>
       }
     }, {
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">60</span>,
           y: <span class="hljs-number">50</span>
         }
       }
     });
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, x, 60)'</span>);
-    expect(actions).to.contain(<span class="hljs-string">'set(myFoo, y, 50)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, x, 60)"</span>);
+    expect(actions).to.contain(<span class="hljs-string">"set(myFoo, y, 50)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">2</span>);
   });
-  it(<span class="hljs-string">'should handle one removed alias'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  it(<span class="hljs-string">"should handle one removed alias"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
     <span class="hljs-keyword">var</span> actions = diff({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
         model: {
           x: <span class="hljs-number">50</span>,
           y: <span class="hljs-number">40</span>
         }
       }
     }, {});
-    expect(actions).to.contain(<span class="hljs-string">'destroy(myFoo)'</span>);
+    expect(actions).to.contain(<span class="hljs-string">"destroy(myFoo)"</span>);
     expect(actions.length).to.equal(<span class="hljs-number">1</span>);
   });
 });</pre></div></div>
