@@ -1,4 +1,4 @@
-define(["_", "model", "configDiff"], function(_, Model, configDiff){
+define(["model", "configDiff"], function(Model, configDiff){
   return function Overseer (loadModule) {
 
     // The returned public API object.
@@ -65,7 +65,15 @@ define(["_", "model", "configDiff"], function(_, Model, configDiff){
       runtime[alias] = { module: module };
 
       loadModule(module, function (constructor) {
-        runtime[alias].model = constructor(overseer);
+        var model = constructor(overseer);
+        runtime[alias].model = model;
+
+        // Broadcast changes in configurable properties.
+        //Object.keys(model.defaults).forEach(function (property) {
+        //  model.when(property, function (value) {
+        //    emitAction(set(alias, property, value));
+        //  });
+        //});
       });
     }
 

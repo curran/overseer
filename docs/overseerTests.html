@@ -47,16 +47,11 @@ describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function
   });
 
   it(<span class="hljs-string">'should set a simple config'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
-    <span class="hljs-keyword">var</span> xValue,
-        loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+    <span class="hljs-keyword">var</span> loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
           <span class="hljs-keyword">var</span> modules = {
             foo: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
               <span class="hljs-keyword">var</span> model = <span class="hljs-keyword">new</span> Model();
-              model.set(<span class="hljs-string">'x'</span>, <span class="hljs-number">0</span>);
-              model.publicProperties = [<span class="hljs-string">'x'</span>];
-              model.when(<span class="hljs-string">'x'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> </span>{
-                xValue = x;
-              });
+              model.set(model.defaults = { x: <span class="hljs-number">0</span> });
               <span class="hljs-keyword">return</span> model;
             }
           };
@@ -84,27 +79,17 @@ describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function
     overseer.setConfig({
       myFoo: {
         <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
-        x: <span class="hljs-number">5</span>
+        model: {
+          x: <span class="hljs-number">5</span>
+        }
       }
     });
-    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{</pre></div></div>
-            
-        </li>
-        
-        
-        <li id="section-3">
-            <div class="annotation">
-              
-              <div class="pilwrap ">
-                <a class="pilcrow" href="#section-3">&#182;</a>
-              </div>
-              <p>TODO
-expect(xValue).to.equal(5);</p>
-
-            </div>
-            
-            <div class="content"><div class='highlight'><pre>      done();
-    }, <span class="hljs-number">0</span>);
+    overseer.getModel(<span class="hljs-string">'myFoo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(model)</span> </span>{
+      model.when(<span class="hljs-string">'x'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> </span>{
+        expect(x).to.equal(<span class="hljs-number">5</span>);
+        done();
+      });
+    });
   });
 });</pre></div></div>
             

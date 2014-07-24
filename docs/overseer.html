@@ -30,7 +30,7 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">"_"</span>, <span class="hljs-string">"model"</span>, <span class="hljs-string">"configDiff"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(_, Model, configDiff)</span></span>{
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">"model"</span>, <span class="hljs-string">"configDiff"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(Model, configDiff)</span></span>{
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Overseer</span> <span class="hljs-params">(loadModule)</span> </span>{</pre></div></div>
             
         </li>
@@ -201,7 +201,7 @@ by polling every 10 ms.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>        setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-          getModel(alias, callback)
+          getModel(alias, callback);
         }, <span class="hljs-number">10</span>);
       }
     }
@@ -225,8 +225,28 @@ by polling every 10 ms.</p>
             <div class="content"><div class='highlight'><pre>      runtime[alias] = { <span class="hljs-built_in">module</span>: <span class="hljs-built_in">module</span> };
 
       loadModule(<span class="hljs-built_in">module</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(constructor)</span> </span>{
-        runtime[alias].model = constructor(overseer);
-      });
+        <span class="hljs-keyword">var</span> model = constructor(overseer);
+        runtime[alias].model = model;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Broadcast changes in configurable properties.
+Object.keys(model.defaults).forEach(function (property) {
+ model.when(property, function (value) {
+   emitAction(set(alias, property, value));
+ });
+});</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      });
     }
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">destroy</span><span class="hljs-params">(alias)</span></span>{
