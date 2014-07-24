@@ -13,6 +13,14 @@ define([], function () {
     },
     unset: function (alias, property) {
       return { method: "unset", alias: alias, property: property};
+    },
+    toString: function (action) {
+      return action.method + "(" + [
+        action.alias,
+        action.property ? ", " + action.property : "",
+        action.value ? ", " + action.value : "",
+        action.module ? ", " + action.module : ""
+      ].join("") + ")";
     }
   };
 });

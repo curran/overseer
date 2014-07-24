@@ -1,5 +1,5 @@
-define(["model", "configDiff"], function(Model, configDiff){
-  return function Overseer (loadModule) {
+define(["model", "configDiff", "action"], function(Model, configDiff, Action){
+  return function Overseer (loadModule, emitAction) {
 
     // The returned public API object.
     var overseer = {
@@ -37,6 +37,9 @@ define(["model", "configDiff"], function(Model, configDiff){
     function setConfig(newConfig) {
       configDiff(config, newConfig).forEach(function (action) {
         methods[action.method](action);
+        if(emitAction) {
+          emitAction(action);
+        }
       });
     }
 
@@ -50,11 +53,10 @@ define(["model", "configDiff"], function(Model, configDiff){
         // call the callback immediately,
         callback(model);
       } else {
-        // otherwise, wait until the model has loaded
-        // by polling every 10 ms.
+        // otherwise, wait until the model has loaded by polling.
         setTimeout(function () {
           getModel(alias, callback);
-        }, 10);
+        }, 0);
       }
     }
 
@@ -69,11 +71,16 @@ define(["model", "configDiff"], function(Model, configDiff){
         runtime[alias].model = model;
 
         // Broadcast changes in configurable properties.
-        //Object.keys(model.defaults).forEach(function (property) {
-        //  model.when(property, function (value) {
-        //    emitAction(set(alias, property, value));
-        //  });
-        //});
+        if(emitAction) {
+          Object.keys(model.defaults).forEach(function (property) {
+            model.when(property, function (value) {
+              var configuredValue = config[alias].model[property] || model.defaults[property];
+              if(value !== configuredValue) {
+                emitAction(Action.set(alias, property, value));
+              }
+            });
+          });
+        }
       });
     }
 

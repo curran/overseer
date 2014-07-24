@@ -3,24 +3,16 @@ var requirejs = require("requirejs"),
 
 requirejs.config(require("./requireConfig.js"));
 
-describe("configDiff", function() {
-  var configDiff;
+describe("configDiff", function () {
+  var configDiff, Action;
 
   // Converts an action into a string
   // for convenient testing.
-  function str(action) {
-    return action.method + "(" + [
-      action.alias,
-      action.property ? ", " + action.property : "",
-      action.value ? ", " + action.value : "",
-      action.module ? ", " + action.module : ""
-    ].join("") + ")";
-  }
 
   // A function that calls configDiff
   // and maps the returned actions to strings.
   function diff(oldConfig, newConfig){
-    return configDiff(oldConfig, newConfig).map(str);
+    return configDiff(oldConfig, newConfig).map(Action.toString);
   }
 
   // A convenience function that writes part of the unit test,
@@ -31,9 +23,10 @@ describe("configDiff", function() {
     });
   }
 
-  it("should load AMD module", function(done) {
-    requirejs(["configDiff"], function (_configDiff) {
+  it("should load AMD module", function (done) {
+    requirejs(["configDiff", "action"], function (_configDiff, _Action) {
       configDiff = _configDiff;
+      Action = _Action;
       done();
     });
   });
