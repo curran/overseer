@@ -15,33 +15,35 @@ describe('Overseer', function() {
   });
 
   it('should set a simple config', function (done) {
-    var xValue,
-        loadModule = (function () {
+    var loadModule = (function () {
           var modules = {
             foo: function () {
               var model = new Model();
-              model.set('x', 0);
-              model.publicProperties = ['x'];
-              model.when('x', function (x) {
-                xValue = x;
-              });
+              model.set(model.defaults = { x: 0 });
               return model;
             }
           };
-          return function (moduleName){
-            return modules[moduleName];
+          return function (moduleName, callback){
+            // Simulate async module loading
+            setTimeout(function () {
+              callback(modules[moduleName]);
+            }, Math.random() * 100);
           };
         }()),
         overseer = Overseer(loadModule);
     overseer.setConfig({
       myFoo: {
         module: 'foo',
-        x: 5
+        model: {
+          x: 5
+        }
       }
     });
-    setTimeout(function () {
-      //expect(xValue).to.equal(5);
-      done();
-    }, 0);
+    overseer.getModel('myFoo', function (model) {
+      model.when('x', function (x) {
+        expect(x).to.equal(5);
+        done();
+      });
+    });
   });
 });

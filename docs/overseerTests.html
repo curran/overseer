@@ -60,8 +60,24 @@ describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function
               <span class="hljs-keyword">return</span> model;
             }
           };
-          <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName)</span></span>{
-            <span class="hljs-keyword">return</span> modules[moduleName];
+          <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName, callback)</span></span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Simulate async module loading</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+              callback(modules[moduleName]);
+            }, <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">100</span>);
           };
         }()),
         overseer = Overseer(loadModule);
@@ -76,13 +92,14 @@ describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function
         </li>
         
         
-        <li id="section-2">
+        <li id="section-3">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-2">&#182;</a>
+                <a class="pilcrow" href="#section-3">&#182;</a>
               </div>
-              <p>expect(xValue).to.equal(5);</p>
+              <p>TODO
+expect(xValue).to.equal(5);</p>
 
             </div>
             
