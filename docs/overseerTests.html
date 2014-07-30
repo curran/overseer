@@ -30,32 +30,22 @@
               
             </div>
             
-            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> requirejs = <span class="hljs-built_in">require</span>(<span class="hljs-string">'requirejs'</span>),
-    expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">'chai'</span>).expect;
+            <div class="content"><div class='highlight'><pre><span class="hljs-keyword">var</span> requirejs = <span class="hljs-built_in">require</span>(<span class="hljs-string">"requirejs"</span>),
+    expect = <span class="hljs-built_in">require</span>(<span class="hljs-string">"chai"</span>).expect;
 
-requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">'./requireConfig.js'</span>));
+requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">"./requireConfig.js"</span>));
 
-describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
-  <span class="hljs-keyword">var</span> Overseer, Model;
-
-  it(<span class="hljs-string">'should load required AMD modules'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> </span>{
-    requirejs([<span class="hljs-string">'overseer'</span>, <span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_Overseer, _Model)</span> </span>{
-      Overseer = _Overseer;
-      Model = _Model;
-      done();
-    });
-  });
-
-  it(<span class="hljs-string">'should set a simple config'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
-    <span class="hljs-keyword">var</span> loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-          <span class="hljs-keyword">var</span> modules = {
-            foo: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-              <span class="hljs-keyword">var</span> model = <span class="hljs-keyword">new</span> Model();
-              model.set(model.defaults = { x: <span class="hljs-number">0</span> });
-              <span class="hljs-keyword">return</span> model;
-            }
-          };
-          <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName, callback)</span></span>{</pre></div></div>
+describe(<span class="hljs-string">"Overseer"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">()</span> </span>{
+  <span class="hljs-keyword">var</span> Overseer,
+      Model,
+      Action,
+      loadModule = (<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+        <span class="hljs-keyword">var</span> modules = {
+          foo: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+            <span class="hljs-keyword">return</span> Model({ x: <span class="hljs-number">0</span> });
+          }
+        };
+        <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(moduleName, callback)</span></span>{</pre></div></div>
             
         </li>
         
@@ -70,28 +60,157 @@ describe(<span class="hljs-string">'Overseer'</span>, <span class="hljs-function
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>            setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-              callback(modules[moduleName]);
-            }, <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">100</span>);
-          };
-        }()),
-        overseer = Overseer(loadModule);
+            <div class="content"><div class='highlight'><pre>          setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+            callback(modules[moduleName]);
+          }, <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">100</span>);
+        };
+      }());
+
+  it(<span class="hljs-string">"should load required AMD modules"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> </span>{
+    requirejs([<span class="hljs-string">"overseer"</span>, <span class="hljs-string">"model"</span>, <span class="hljs-string">"action"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_Overseer, _Model, _Action)</span> </span>{
+      Overseer = _Overseer;
+      Model = _Model;
+      Action = _Action;
+      done();
+    });
+  });
+
+  it(<span class="hljs-string">"should set a simple config"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
+    <span class="hljs-keyword">var</span> overseer = Overseer(loadModule);
     overseer.setConfig({
       myFoo: {
-        <span class="hljs-built_in">module</span>: <span class="hljs-string">'foo'</span>,
-        model: {
-          x: <span class="hljs-number">5</span>
-        }
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
+        model: { x: <span class="hljs-number">5</span> }
       }
     });
-    overseer.getModel(<span class="hljs-string">'myFoo'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(model)</span> </span>{
-      model.when(<span class="hljs-string">'x'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> </span>{
+    overseer.getModel(<span class="hljs-string">"myFoo"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(model)</span> </span>{
+      model.when(<span class="hljs-string">"x"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> </span>{
         expect(x).to.equal(<span class="hljs-number">5</span>);
         done();
       });
     });
   });
+
+  it(<span class="hljs-string">"should use defaults when no model is provided"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
+    <span class="hljs-keyword">var</span> overseer = Overseer(loadModule);
+    overseer.setConfig({
+      myFoo: {
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>
+      }
+    });
+    overseer.getModel(<span class="hljs-string">"myFoo"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(model)</span> </span>{
+      model.when(<span class="hljs-string">"x"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(x)</span> </span>{
+        expect(x).to.equal(<span class="hljs-number">0</span>);
+        done();
+      });
+    });
+  });
+
+  it(<span class="hljs-string">"should emit actions from configuration changes"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
+    <span class="hljs-keyword">var</span> overseer = Overseer(loadModule, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(action)</span> </span>{
+      <span class="hljs-keyword">if</span>(action.method === <span class="hljs-string">"set"</span>) {
+        expect(Action.toString(action)).to.equal(<span class="hljs-string">"set(myFoo, x, 5)"</span>);
+        done();
+      }
+    });
+    overseer.setConfig({
+      myFoo: {
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
+        model: { x: <span class="hljs-number">5</span> }
+      }
+    });
+  });
+  it(<span class="hljs-string">"should emit actions from model changes"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
+    <span class="hljs-keyword">var</span> actions = [],
+        overseer = Overseer(loadModule, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(action)</span> </span>{
+          actions.push(action);
+          <span class="hljs-keyword">if</span>(action.method === <span class="hljs-string">"set"</span>) {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>This first action is from configuration.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            <span class="hljs-keyword">if</span>(Action.toString(action) === <span class="hljs-string">"set(myFoo, x, 5)"</span>){</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Trigger an action from a model change.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>              overseer.getModel(<span class="hljs-string">"myFoo"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(model)</span> </span>{
+                model.x = <span class="hljs-number">99</span>;
+              });
+            } <span class="hljs-keyword">else</span> {
+              expect(Action.toString(action)).to.equal(<span class="hljs-string">"set(myFoo, x, 99)"</span>);
+            }
+          }
+        });
+
+    overseer.setConfig({
+      myFoo: {
+        <span class="hljs-built_in">module</span>: <span class="hljs-string">"foo"</span>,
+        model: { x: <span class="hljs-number">5</span> }
+      }
+    });
+
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">var</span> actionsStr = actions.map(Action.toString).join(<span class="hljs-string">" "</span>);
+      expect(actionsStr).to.equal(<span class="hljs-string">"create(myFoo, foo) set(myFoo, x, 5) set(myFoo, x, 99)"</span>);
+      done();
+    }, <span class="hljs-number">100</span>);
+  });
+
+  it(<span class="hljs-string">"should not emit actions to set default values"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
+    <span class="hljs-keyword">var</span> actions = [],
+        overseer = Overseer(loadModule, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(action)</span> </span>{
+          actions.push(action);
+        });
+
+    overseer.setConfig({
+      myFoo: {
+        <span class="hljs-built_in">module</span>:<span class="hljs-string">"foo"</span>
+      }
+    });
+
+    setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+      <span class="hljs-keyword">var</span> actionsStr = actions.map(Action.toString).join(<span class="hljs-string">" "</span>);
+      expect(actionsStr).to.equal(<span class="hljs-string">"create(myFoo, foo)"</span>);
+      done();
+    }, <span class="hljs-number">100</span>);
+  });
 });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>server -&gt; actions -&gt; overseer
+user interaction -&gt; models -&gt; overseer -&gt; actions -&gt; server
+set configuration          -&gt; overseer -&gt; actions -&gt; server</p>
+
+            </div>
             
         </li>
         

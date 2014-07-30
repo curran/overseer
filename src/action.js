@@ -17,9 +17,9 @@ define([], function () {
     toString: function (action) {
       return action.method + "(" + [
         action.alias,
-        action.property ? ", " + action.property : "",
-        action.value ? ", " + action.value : "",
-        action.module ? ", " + action.module : ""
+        action.property !== undefined ? ", " + action.property : "",
+        action.value !== undefined ? ", " + action.value : "",
+        action.module !== undefined ? ", " + action.module : ""
       ].join("") + ")";
     }
   };

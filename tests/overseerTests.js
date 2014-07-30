@@ -10,9 +10,7 @@ describe("Overseer", function() {
       loadModule = (function () {
         var modules = {
           foo: function () {
-            var model = new Model();
-            model.set(model.defaults = { x: 0 });
-            return model;
+            return Model({ x: 0 });
           }
         };
         return function (moduleName, callback){
@@ -48,6 +46,21 @@ describe("Overseer", function() {
     });
   });
 
+  it("should use defaults when no model is provided", function (done) {
+    var overseer = Overseer(loadModule);
+    overseer.setConfig({
+      myFoo: {
+        module: "foo"
+      }
+    });
+    overseer.getModel("myFoo", function (model) {
+      model.when("x", function (x) {
+        expect(x).to.equal(0);
+        done();
+      });
+    });
+  });
+
   it("should emit actions from configuration changes", function (done) {
     var overseer = Overseer(loadModule, function (action) {
       if(action.method === "set") {
@@ -63,26 +76,55 @@ describe("Overseer", function() {
     });
   });
   it("should emit actions from model changes", function (done) {
-    var overseer = Overseer(loadModule, function (action) {
-      if(action.method === "set") {
-        // This first action is from configuration.
-        if(Action.toString(action) === "set(myFoo, x, 5)"){
-          // Trigger an action from a model change.
-          overseer.getModel("myFoo", function (model) {
-            model.x = 99;
-          });
-        } else {
-          expect(Action.toString(action)).to.equal("set(myFoo, x, 99)");
-          done();
-        }
-      }
-    });
+    var actions = [],
+        overseer = Overseer(loadModule, function (action) {
+          actions.push(action);
+          if(action.method === "set") {
+
+            // This first action is from configuration.
+            if(Action.toString(action) === "set(myFoo, x, 5)"){
+
+              // Trigger an action from a model change.
+              overseer.getModel("myFoo", function (model) {
+                model.x = 99;
+              });
+            } else {
+              expect(Action.toString(action)).to.equal("set(myFoo, x, 99)");
+            }
+          }
+        });
+
     overseer.setConfig({
       myFoo: {
         module: "foo",
         model: { x: 5 }
       }
     });
+
+    setTimeout(function () {
+      var actionsStr = actions.map(Action.toString).join(" ");
+      expect(actionsStr).to.equal("create(myFoo, foo) set(myFoo, x, 5) set(myFoo, x, 99)");
+      done();
+    }, 100);
+  });
+
+  it("should not emit actions to set default values", function (done) {
+    var actions = [],
+        overseer = Overseer(loadModule, function (action) {
+          actions.push(action);
+        });
+
+    overseer.setConfig({
+      myFoo: {
+        module:"foo"
+      }
+    });
+
+    setTimeout(function () {
+      var actionsStr = actions.map(Action.toString).join(" ");
+      expect(actionsStr).to.equal("create(myFoo, foo)");
+      done();
+    }, 100);
   });
 });
 

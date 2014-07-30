@@ -45,6 +45,14 @@ Curran Kelleher July 2014</p>
     },
     unset: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(alias, property)</span> </span>{
       <span class="hljs-keyword">return</span> { method: <span class="hljs-string">"unset"</span>, alias: alias, property: property};
+    },
+    toString: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(action)</span> </span>{
+      <span class="hljs-keyword">return</span> action.method + <span class="hljs-string">"("</span> + [
+        action.alias,
+        action.property !== <span class="hljs-literal">undefined</span> ? <span class="hljs-string">", "</span> + action.property : <span class="hljs-string">""</span>,
+        action.value !== <span class="hljs-literal">undefined</span> ? <span class="hljs-string">", "</span> + action.value : <span class="hljs-string">""</span>,
+        action.module !== <span class="hljs-literal">undefined</span> ? <span class="hljs-string">", "</span> + action.module : <span class="hljs-string">""</span>
+      ].join(<span class="hljs-string">""</span>) + <span class="hljs-string">")"</span>;
     }
   };
 });</pre></div></div>
