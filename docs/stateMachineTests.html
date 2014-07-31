@@ -36,12 +36,11 @@
 requirejs.config(<span class="hljs-built_in">require</span>(<span class="hljs-string">"./requireConfig.js"</span>));
 
 describe(<span class="hljs-string">"StateMachine"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
-  <span class="hljs-keyword">var</span> StateMachine, Action;
+  <span class="hljs-keyword">var</span> StateMachine;
 
   it(<span class="hljs-string">"should load AMD module"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(done)</span> </span>{
-    requirejs([<span class="hljs-string">"StateMachine"</span>, <span class="hljs-string">"action"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_StateMachine, _Action)</span> </span>{
+    requirejs([<span class="hljs-string">"stateMachine"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_StateMachine)</span> </span>{
       StateMachine = _StateMachine;
-      Action = _Action;
       done();
     });
   });
@@ -65,7 +64,7 @@ because it starts at the default state, 0.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    stateMachine.executeTransition({
+            <div class="content"><div class='highlight'><pre>    stateMachine.execute({
       u: <span class="hljs-number">0</span>,
       v: <span class="hljs-number">1</span>
     });
@@ -91,9 +90,9 @@ because it starts at the default state, 0.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    stateMachine.executeTransition({ u: <span class="hljs-number">0</span>, v: <span class="hljs-number">1</span> });
+            <div class="content"><div class='highlight'><pre>    stateMachine.execute({ u: <span class="hljs-number">0</span>, v: <span class="hljs-number">1</span> });
     expect(v).to.equal(<span class="hljs-number">1</span>);
-    stateMachine.executeTransition({ u: <span class="hljs-number">1</span>, v: <span class="hljs-number">8</span> });
+    stateMachine.execute({ u: <span class="hljs-number">1</span>, v: <span class="hljs-number">8</span> });
     expect(v).to.equal(<span class="hljs-number">8</span>);
   });
   
@@ -131,7 +130,7 @@ because it does not start at the default state, 0.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    stateMachine.executeTransition({
+            <div class="content"><div class='highlight'><pre>    stateMachine.execute({
       u: <span class="hljs-number">5</span>,
       v: <span class="hljs-number">6</span>
     });
@@ -142,25 +141,25 @@ because it does not start at the default state, 0.</p>
         b = StateMachine(broadcast);
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">broadcast</span><span class="hljs-params">(transition)</span></span>{
-      a.executeTransition(transition);
-      b.executeTransition(transition);
+      a.execute(transition);
+      b.execute(transition);
     }
 
-    a.executeTransition({
+    a.execute({
       u: <span class="hljs-number">0</span>,
       v: <span class="hljs-number">1</span>
     });
 
-    expect(a.currentState()).to.equal(<span class="hljs-number">1</span>);
-    expect(b.currentState()).to.equal(<span class="hljs-number">1</span>);
+    expect(a.state).to.equal(<span class="hljs-number">1</span>);
+    expect(b.state).to.equal(<span class="hljs-number">1</span>);
 
-    b.executeTransition({
+    b.execute({
       u: <span class="hljs-number">1</span>,
       v: <span class="hljs-number">2</span>
     });
 
-    expect(a.currentState()).to.equal(<span class="hljs-number">2</span>);
-    expect(b.currentState()).to.equal(<span class="hljs-number">2</span>);
+    expect(a.state).to.equal(<span class="hljs-number">2</span>);
+    expect(b.state).to.equal(<span class="hljs-number">2</span>);
 
   });
 
@@ -173,32 +172,113 @@ because it does not start at the default state, 0.</p>
 
     <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">broadcast</span><span class="hljs-params">(transition)</span></span>{
       machines.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(machine)</span> </span>{
-        machine.executeTransition(transition);
+        machine.execute(transition);
       });
     }
 
-    a.executeTransition({
+    a.execute({
       u: <span class="hljs-number">0</span>,
       v: <span class="hljs-number">1</span>
     });
 
-    expect(a.currentState()).to.equal(<span class="hljs-number">1</span>);
-    expect(b.currentState()).to.equal(<span class="hljs-number">1</span>);
-    expect(c.currentState()).to.equal(<span class="hljs-number">1</span>);
-    expect(d.currentState()).to.equal(<span class="hljs-number">1</span>);
+    expect(a.state).to.equal(<span class="hljs-number">1</span>);
+    expect(b.state).to.equal(<span class="hljs-number">1</span>);
+    expect(c.state).to.equal(<span class="hljs-number">1</span>);
+    expect(d.state).to.equal(<span class="hljs-number">1</span>);
 
-    b.executeTransition({
+    b.execute({
       u: <span class="hljs-number">1</span>,
       v: <span class="hljs-number">2</span>
     });
 
-    expect(a.currentState()).to.equal(<span class="hljs-number">2</span>);
-    expect(b.currentState()).to.equal(<span class="hljs-number">2</span>);
-    expect(c.currentState()).to.equal(<span class="hljs-number">2</span>);
-    expect(d.currentState()).to.equal(<span class="hljs-number">2</span>);
+    expect(a.state).to.equal(<span class="hljs-number">2</span>);
+    expect(b.state).to.equal(<span class="hljs-number">2</span>);
+    expect(c.state).to.equal(<span class="hljs-number">2</span>);
+    expect(d.state).to.equal(<span class="hljs-number">2</span>);
 
   });
-});</pre></div></div>
+  it(<span class="hljs-string">"should synchronize state machines with async communication"</span>, <span class="hljs-function"><span class="hljs-keyword">function</span><span class="hljs-params">(done)</span> </span>{
+    <span class="hljs-keyword">var</span> clientA = StateMachine(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(transition)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>simulate network latency.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+            server.execute(transition);
+          }, <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10</span>);
+        }),
+        server = StateMachine(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(transition)</span> </span>{
+          expect(server.state).to.equal(<span class="hljs-number">1</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>simulate network latency.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>          setTimeout(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Simple sync algorithm broadcasts transition to all clients.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>            clientA.execute(transition);
+            clientB.execute(transition);
+
+          }, <span class="hljs-built_in">Math</span>.random() * <span class="hljs-number">10</span>);
+        });
+        clientB = StateMachine(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(transition)</span> </span>{
+          expect(clientA.state).to.equal(<span class="hljs-number">1</span>);
+          expect(clientB.state).to.equal(<span class="hljs-number">1</span>);
+          done();
+        });
+
+    clientA.execute({
+      u: <span class="hljs-number">0</span>,
+      v: <span class="hljs-number">1</span>
+    });
+  });</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>TODO simulate conflicting async transitions from different sources</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>});</pre></div></div>
             
         </li>
         

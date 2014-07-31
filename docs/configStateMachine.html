@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>configStateMachine.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>configStateMachine.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">"_"</span>, <span class="hljs-string">"stateMachine"</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(_, StateMachine)</span> </span>{
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(emit)</span></span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>The parent state machine.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> machine = StateMachine(process);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>The object containing the current config.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    machine.config = {};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Updates machine.config when transitions are processed.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">process</span><span class="hljs-params">(transition)</span> </span>{</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Update the config</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span>(transition.do){
+        <span class="hljs-keyword">if</span>(transition.do.create){
+          transition.do.create.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component)</span> </span>{
+            machine.config[component.alias] = {
+              <span class="hljs-built_in">module</span>: component.module
+            };
+          });
+        }
+        <span class="hljs-keyword">if</span>(transition.do.set){
+          transition.do.set.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component)</span> </span>{
+            _.extend(machine.config[component.alias], component.values);
+          });
+        }
+        <span class="hljs-keyword">if</span>(transition.do.unset){
+          transition.do.unset.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(component)</span> </span>{
+            component.properties.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(property)</span> </span>{
+              <span class="hljs-keyword">delete</span> machine.config[component.alias][property];
+            });
+          });
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>TODO test this</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span>(transition.do.destroy){
+          transition.do.destroy.forEach(<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(alias)</span> </span>{
+            <span class="hljs-keyword">delete</span> machine.config[alias];
+          });
+        }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Trigger Model.js listeners</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        machine.config = machine.config;
+      }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Pass on the transition
+TODO test this</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>      <span class="hljs-keyword">if</span>(emit) {
+        emit(transition);
+      }
+    }
+    <span class="hljs-keyword">return</span> machine;
+  };
+});</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

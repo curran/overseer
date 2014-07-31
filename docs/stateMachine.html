@@ -32,9 +32,11 @@ synchronization algorithm.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>define([], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{
+            <div class="content"><div class='highlight'><pre>define([<span class="hljs-string">'model'</span>], <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(Model)</span> </span>{
 
-  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">StateMachine</span><span class="hljs-params">(emit)</span></span>{</pre></div></div>
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">StateMachine</span><span class="hljs-params">(emit)</span></span>{
+
+    <span class="hljs-keyword">var</span> machine = Model({</pre></div></div>
             
         </li>
         
@@ -49,10 +51,8 @@ synchronization algorithm.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="hljs-keyword">var</span> currentState = <span class="hljs-number">0</span>;
-
-    <span class="hljs-keyword">return</span> {
-      executeTransition: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(transition)</span> </span>{</pre></div></div>
+            <div class="content"><div class='highlight'><pre>      state: <span class="hljs-number">0</span>,
+      execute: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">(transition)</span> </span>{</pre></div></div>
             
         </li>
         
@@ -68,7 +68,7 @@ This is the bottom out condition of the distributed synchronization algorithm.</
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span>(currentState === transition.u){</pre></div></div>
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span>(machine.state === transition.u){</pre></div></div>
             
         </li>
         
@@ -83,7 +83,7 @@ This is the bottom out condition of the distributed synchronization algorithm.</
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>          currentState = transition.v;</pre></div></div>
+            <div class="content"><div class='highlight'><pre>          machine.state = transition.v;</pre></div></div>
             
         </li>
         
@@ -100,9 +100,9 @@ This is the bottom out condition of the distributed synchronization algorithm.</
             
             <div class="content"><div class='highlight'><pre>          emit(transition);
         }
-      },
-      currentState: <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-params">()</span> </span>{ <span class="hljs-keyword">return</span> currentState; }
-    };
+      }
+    });
+    <span class="hljs-keyword">return</span> machine;
   };
 });</pre></div></div>
             
