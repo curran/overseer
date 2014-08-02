@@ -14,5 +14,6 @@
     "gulp-uglify": "^0.2.1",
     "jshint-stylish": "^0.1.5",
     "requirejs": "^2.1.11"
+    "socket.io": "^1.0.6"
   }
 }
