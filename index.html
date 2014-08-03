@@ -4,19 +4,29 @@
     <meta charset="utf-8">
     <title>Overseer Example</title>
 
+    <!--
+      Use socket.io for real time communication.
+      Draws from example code found at
+      http://socket.io/get-started/chat/
+      https://github.com/guille/chat-example
+    -->
     <script src="/socket.io/socket.io.js"></script>
 
+    <!--
+      Use CodeMirror for code editing and syntax highlighting.
+      Draws from example code found at
+      http://codemirror.net/
+    -->
     <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
     <script src="bower_components/codemirror/lib/codemirror.js"></script>
+    <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
   </head>
   <body>
     <textarea id="editor"></textarea>
     <script>
       var socket = io(),
           el = document.getElementById("editor"),
-          editor = CodeMirror.fromTextArea(el, {
-            mode: "text/html"
-          });
+          editor = CodeMirror.fromTextArea(el, { mode: "application/json" });
 
       editor.on("change", onChange);
 
@@ -33,14 +43,20 @@
       // Listen for messages from the server.
       socket.on("message", function (value) {
         console.log("received message " + value);
+        // Only set the text if the new value
+        // originated at a different client.
+        if(editor.getValue() != value){
 
-        // Temporarily remove the change listener
-        // so events originating at the server are not
-        // sent back to the server.
-        editor.off("change", onChange);
-        editor.setValue(value);
-        editor.on("change", onChange);
+          // Temporarily remove the change listener
+          // so events originating at the server are not
+          // sent back to the server.
+          editor.off("change", onChange);
+          editor.setValue(value);
+          editor.on("change", onChange);
+        }
       })
+
+      editor.setValue('{ "x": 5, "y": 10 }');
 
     </script>
   </body>
