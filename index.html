@@ -3,29 +3,45 @@
   <head>
     <meta charset="utf-8">
     <title>Overseer Example</title>
+
     <script src="/socket.io/socket.io.js"></script>
+
+    <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
+    <script src="bower_components/codemirror/lib/codemirror.js"></script>
   </head>
   <body>
     <textarea id="editor"></textarea>
     <script>
       var socket = io(),
-          el = document.getElementById("editor");
+          el = document.getElementById("editor"),
+          editor = CodeMirror.fromTextArea(el, {
+            mode: "text/html"
+          });
+
+      editor.on("change", onChange);
 
       // Whenever the user changes the text ...
-      el.addEventListener("keyup", function (e) {
+      function onChange(e) {
 
         // Grab the value from the DOM.
-        var value = (el.value);
+        var value = (editor.getValue());
 
         // Send the value to the server.
         socket.emit("message", value);
-      });
+      }
 
       // Listen for messages from the server.
       socket.on("message", function (value) {
         console.log("received message " + value);
-        el.value = value;
+
+        // Temporarily remove the change listener
+        // so events originating at the server are not
+        // sent back to the server.
+        editor.off("change", onChange);
+        editor.setValue(value);
+        editor.on("change", onChange);
       })
+
     </script>
   </body>
 </html>
