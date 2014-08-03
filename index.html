@@ -16,10 +16,20 @@
       Use CodeMirror for code editing and syntax highlighting.
       Draws from example code found at
       http://codemirror.net/
+      http://codemirror.net/mode/javascript/index.html
     -->
     <link rel="stylesheet" href="bower_components/codemirror/lib/codemirror.css">
     <script src="bower_components/codemirror/lib/codemirror.js"></script>
     <script src="bower_components/codemirror/mode/javascript/javascript.js"></script>
+
+    <!--
+      Use Inlet for color picker and number slider.
+      Draws from example code found at
+      https://github.com/enjalot/Inlet
+      http://enjalot.github.io/Inlet/
+    -->
+    <link rel="stylesheet" href="lib/inlet.css" type="text/css" media="screen" title="no title" charset="utf-8">
+    <script src="lib/inlet.min.js"></script>
   </head>
   <body>
     <textarea id="editor"></textarea>
@@ -56,8 +66,11 @@
         }
       })
 
-      editor.setValue('{ "x": 5, "y": 10 }');
+      // Turn on color picker and slider UI.
+      Inlet(editor);
 
+      // Initialize with sample JSON.
+      editor.setValue('{ "x": 5, "y": 10 }');
     </script>
   </body>
 </html>
