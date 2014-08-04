@@ -11,4 +11,10 @@ Overseer is a framework for managing application state. Application state is rep
  * view sharing
  * synchronous collaboration
 
+## Related Work
+
+ * [Apache Wave](http://en.wikipedia.org/wiki/Apache_Wave)
+ * [Operational transformation](http://en.wikipedia.org/wiki/Operational_transformation)
+ * [ShareJS](http://sharejs.org/)
+
 Curran Kelleher 4/26/2014

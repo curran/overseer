@@ -70,7 +70,10 @@
       Inlet(editor);
 
       // Initialize with sample JSON.
-      editor.setValue('{ "x": 5, "y": 10 }');
+      editor.setValue(JSON.stringify({
+        color: "#ff0505",
+        number: 50
+      }, null, 2));
     </script>
   </body>
 </html>
