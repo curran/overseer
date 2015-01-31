@@ -1,9 +1,6 @@
 Overseer
 ========
 
- * [Annotated Source]()
- * [Unit Tests]()
-
 Overseer is a framework for managing application state. Application state is represented as a set of named models. Use cases include:
 
  * assembling applications using a configuration file
